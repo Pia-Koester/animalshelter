@@ -40,7 +40,9 @@ public class AnimalShelter {
             } else if ("show".equalsIgnoreCase(userInput)) {
                 showCommando.execute();
             } else if ("add".equalsIgnoreCase(userInput)) {
-                addCommando.execute();
+                //kann ich das runApp als locale variable in das commando passen, sodass ich die loop auch aus dem commando schießen kann?
+                //ANSWER: ich kann nicht einfach boolean reinkippen, weil es ein primitiver Datentyp ist
+                runApp = addCommando.execute();
             } else {
                 System.out.println("Sorry I don't know what you want?! Try again!");
             }
