@@ -14,6 +14,8 @@ public class ShowCommando {
             System.out.println("Amazing!! All animals have found a loving home ");
         } else {
             System.out.println("These are all the animals currently waiting for their forever home:");
+            //IMPORTANT: this works because of implicit upcasting. All cats and dogs are subclasses of animal, so no matter which object they are, they work in the parent methods
+            //Methoden die ausschließlich in den Subclasses sind können hier allerdings nicht verwendet werden!
             for (Animal animal : animalsInShelter) {
                 System.out.println("Name: " + animal.name + " - Age: " + animal.age);
                 animal.makeSound();

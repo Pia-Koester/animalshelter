@@ -31,10 +31,34 @@ public class AddCommando {
 
         if ("cat".equals(animalSpecies)) {
             Cat cat = catFactory.createAnimal(animalName, parsedAge);
-            animalsInShelter.add(cat);
+            //QUESTION: ist das nicht zu viel wiederholung mit unten dem Doggy?
+            boolean acceptCat = false;
+            for (Animal animal : animalsInShelter) {
+                if (cat.equals(animal)) {
+                    System.out.println("We already have a cat called " + cat.name + " which is " + cat.age + " years old.");
+                    System.out.println("no more of these cats allowed");
+                } else {
+                    acceptCat = true;
+                }
+            }
+            if (acceptCat) {
+                animalsInShelter.add(cat);
+            }
         } else if ("dog".equals(animalSpecies)) {
             Dog dog = dogFactory.createAnimal(animalName, parsedAge);
-            animalsInShelter.add(dog);
+            boolean acceptDog = false;
+            for (Animal animal : animalsInShelter) {
+                if (dog.equals(animal)) {
+                    System.out.println("We already have a dog called " + dog.name + " which is " + dog.age + " years old.");
+                    System.out.println("no more of these dogs allowed");
+                } else {
+                    acceptDog = true;
+                }
+            }
+            if (acceptDog) {
+                animalsInShelter.add(dog);
+            }
+
         } else {
             System.out.println("Our Animal Shelter can currently only accept cats or dogs :(");
         }
