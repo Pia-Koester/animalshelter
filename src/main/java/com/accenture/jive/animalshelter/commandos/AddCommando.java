@@ -1,9 +1,11 @@
-package com.accenture.jive.animalshelter;
+package com.accenture.jive.animalshelter.commandos;
+
+import com.accenture.jive.animalshelter.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AddCommando {
+public class AddCommando implements Commando {
 
     public Scanner scanner;
     public CatFactory catFactory;
@@ -18,19 +20,26 @@ public class AddCommando {
         this.animalsInShelter = animalsInShelter;
     }
 
+    @Override
     public boolean execute() {
         System.out.println("What is this animals species? (cat|dog)");
         String animalSpecies = scanner.nextLine();
-        System.out.println("What is the animals name?");
-        String animalName = scanner.nextLine();
-        System.out.println("How old is this Animal? Enter a number");
-        String animalAge = scanner.nextLine();
-        //QUESTION: How can I write an error message telling users to only enter a number?
-
-        int parsedAge = Integer.parseInt(animalAge);
         if ("exit".equalsIgnoreCase(animalSpecies.trim())) {
             return false;
         }
+        System.out.println("What is the animals name?");
+        String animalName = scanner.nextLine();
+        if ("exit".equalsIgnoreCase(animalName.trim())) {
+            return false;
+        }
+        System.out.println("How old is this Animal? Enter a number");
+        String animalAge = scanner.nextLine();
+
+        if ("exit".equalsIgnoreCase(animalAge.trim())) {
+            return false;
+        }
+        //QUESTION: How can I write an error message telling users to only enter a number? - if exit is allowed this doesn't work
+        int parsedAge = Integer.parseInt(animalAge);
         if ("cat".equals(animalSpecies.trim())) {
             Cat cat = catFactory.createAnimal(animalName, parsedAge);
             //QUESTION: ist das nicht zu viel wiederholung mit unten dem Doggy? - wie in eine eigene Methode packen?
@@ -41,14 +50,7 @@ public class AddCommando {
             } else {
                 acceptCat = true;
             }
-           /* for (Animal animal : animalsInShelter) {
-                if (cat.equals(animal)) {
-                    System.out.println("We already have a cat called " + cat.name + " which is " + cat.age + " years old.");
-                    System.out.println("no more of these cats allowed");
-                } else {
-                    acceptCat = true;
-                }
-            }*/
+
             if (acceptCat) {
                 animalsInShelter.add(cat);
             }
@@ -61,14 +63,7 @@ public class AddCommando {
             } else {
                 acceptDog = true;
             }
-          /*  for (Animal animal : animalsInShelter) {
-                if (dog.equals(animal)) {
-                    System.out.println("We already have a dog called " + dog.name + " which is " + dog.age + " years old.");
-                    System.out.println("no more of these dogs allowed");
-                } else {
-                    acceptDog = true;
-                }
-            }*/
+
             if (acceptDog) {
                 animalsInShelter.add(dog);
             }
