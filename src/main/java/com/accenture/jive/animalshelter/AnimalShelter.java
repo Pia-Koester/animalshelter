@@ -1,10 +1,12 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.AddCommando;
+import com.accenture.jive.animalshelter.commandos.Commando;
 import com.accenture.jive.animalshelter.commandos.ExitCommando;
 import com.accenture.jive.animalshelter.commandos.ShowCommando;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AnimalShelter {
@@ -25,12 +27,8 @@ public class AnimalShelter {
         //The Scanner constructor always need some parameters like System.in
         Scanner scanner = new Scanner(System.in);
 
-        //Creating an instance of addCommando to use its function
-        AddCommando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter);
+        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, animalsInShelter);
 
-        //Creating an instance of showCommando so that all animals in the shelter can be printed
-        ShowCommando showCommando = new ShowCommando(animalsInShelter);
-        ExitCommando exitCommando = new ExitCommando();
 
         //Loop so that the user gets prompted to select a repl action
         //condition to ensure loop does not loop indefinitely
@@ -40,20 +38,29 @@ public class AnimalShelter {
             System.out.println("Welcome to the Animal Shelter. How can we help you? ");
             System.out.println("Enter 'show' to see all animals. Enter 'add' to abandon your animal.");
             String userInput = scanner.nextLine();
-            if ("exit".equalsIgnoreCase(userInput)) {
-                runApp = exitCommando.execute();
-            } else if ("show".equalsIgnoreCase(userInput)) {
-                runApp = showCommando.execute();
-            } else if ("add".equalsIgnoreCase(userInput)) {
-                //kann ich das runApp als locale variable in das commando passen, sodass ich die loop auch aus dem commando schießen kann?
-                //ANSWER: ich kann nicht einfach boolean reinkippen, weil es ein primitiver Datentyp ist
-                runApp = addCommando.execute();
-            } else {
-                System.out.println("Sorry I don't know what you want?! Try again!");
+            for (Commando commando : commandos) {
+                if (commando.shouldExecute(userInput)) {
+                    runApp = commando.execute();
+                }
             }
+            //QUESTION: Wie könnte ich hier sowas wie - kein passendes Kommando als Rückmeldung einbauen?
         }
 
         System.out.println("Bye bye. ");
+    }
+
+    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, ArrayList<Animal> animalsInShelter) {
+        List<Commando> commandos = new ArrayList<>();
+        //Creating an instance of addCommando to use its function
+        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter);
+
+        //Creating an instance of showCommando so that all animals in the shelter can be printed
+        Commando showCommando = new ShowCommando(animalsInShelter);
+        Commando exitCommando = new ExitCommando();
+        commandos.add(addCommando);
+        commandos.add(showCommando);
+        commandos.add(exitCommando);
+        return commandos;
     }
 
     public static void main(String[] args) {

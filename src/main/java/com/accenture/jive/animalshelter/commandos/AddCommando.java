@@ -74,4 +74,9 @@ public class AddCommando implements Commando {
         return true; //Muss returned werden, weil mein Commando ja jetzt einen return value boolean hat
 
     }
+
+    @Override
+    public boolean shouldExecute(String userCommando) {
+        return "add".equalsIgnoreCase(userCommando);
+    }
 }

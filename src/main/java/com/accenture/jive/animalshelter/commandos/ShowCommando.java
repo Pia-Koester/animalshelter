@@ -14,6 +14,11 @@ public class ShowCommando implements Commando {
     }
 
     @Override
+    public boolean shouldExecute(String userCommando) {
+        return "show".equalsIgnoreCase(userCommando);
+    }
+
+    @Override
     public boolean execute() {
         if (animalsInShelter.isEmpty()) {
             System.out.println("Amazing!! All animals have found a loving home ");
