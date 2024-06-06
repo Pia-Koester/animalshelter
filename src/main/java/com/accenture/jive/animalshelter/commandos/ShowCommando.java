@@ -4,13 +4,16 @@ import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class ShowCommando implements Commando {
+    private final Connection connection;
     public ArrayList<Animal> animalsInShelter;
 
-    public ShowCommando(ArrayList<Animal> animalsInShelter) {
-        this.animalsInShelter = animalsInShelter;
+    public ShowCommando(Connection connection) {
+        this.connection = connection;
+
     }
 
     @Override

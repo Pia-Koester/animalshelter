@@ -5,13 +5,19 @@ import com.accenture.jive.animalshelter.commandos.Commando;
 import com.accenture.jive.animalshelter.commandos.ExitCommando;
 import com.accenture.jive.animalshelter.commandos.ShowCommando;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class AnimalShelter {
 
-    public void run() {
+    public void run() throws SQLException {
+
+        Connector connector = new Connector();
+        Connection connection = connector.getConnection();
+
         //importing and setting up the factories to create new animal objects
         CatFactory catFactory = new CatFactory();
         DogFactory dogFactory = new DogFactory();
@@ -49,13 +55,15 @@ public class AnimalShelter {
         System.out.println("Bye bye. ");
     }
 
-    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, ArrayList<Animal> animalsInShelter) {
+    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, ArrayList<Animal> animalsInShelter, Connection connection) {
+
+
         List<Commando> commandos = new ArrayList<>();
         //Creating an instance of addCommando to use its function
         Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter);
 
         //Creating an instance of showCommando so that all animals in the shelter can be printed
-        Commando showCommando = new ShowCommando(animalsInShelter);
+        Commando showCommando = new ShowCommando(connection);
         Commando exitCommando = new ExitCommando();
         commandos.add(addCommando);
         commandos.add(showCommando);
@@ -63,7 +71,7 @@ public class AnimalShelter {
         return commandos;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         //IMPORTANT: for the run method to work we need an object, so we first create an object of the class AnimalShelter
         AnimalShelter animalShelter = new AnimalShelter();
         animalShelter.run();
