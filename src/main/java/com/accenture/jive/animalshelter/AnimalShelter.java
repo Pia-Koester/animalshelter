@@ -33,7 +33,7 @@ public class AnimalShelter {
         //The Scanner constructor always need some parameters like System.in
         Scanner scanner = new Scanner(System.in);
 
-        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, animalsInShelter);
+        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, animalsInShelter, connection);
 
 
         //Loop so that the user gets prompted to select a repl action
