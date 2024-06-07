@@ -45,7 +45,14 @@ public class AddCommando implements Commando {
             return false;
         }
 
-        Integer animalSpeciesId = Integer.parseInt(animalSpecies);
+        Integer animalSpeciesId = null;
+        try {
+            animalSpeciesId = Integer.parseInt(animalSpecies);
+        } catch (NumberFormatException e) {
+            System.out.println("Enter a valid ID - this must be a number");
+            animalSpecies = scanner.nextLine();
+            animalSpeciesId = Integer.parseInt(animalSpecies);
+        }
         System.out.println("What is the animals name?");
         String animalName = scanner.nextLine();
         if ("exit".equalsIgnoreCase(animalName.trim())) {
@@ -57,8 +64,16 @@ public class AddCommando implements Commando {
         if ("exit".equalsIgnoreCase(animalAge.trim())) {
             return false;
         }
-        //QUESTION: How can I write an error message telling users to only enter a number? - if exit is allowed this doesn't work
-        int parsedAge = Integer.parseInt(animalAge);
+        //QUESTION: How can I write an error message telling users to only enter a number? - if exit is allowed this doesn't work??
+        int parsedAge;
+        try {
+            parsedAge = Integer.parseInt(animalAge);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid age- this must be a number");
+            animalAge = scanner.nextLine();
+            parsedAge = Integer.parseInt(animalAge);
+            //throw new RuntimeException(e);
+        }
 
         String insertSQL = "INSERT INTO animalshelter.animal (animal_name, age, type_id) " +
                 "VALUES(?, ?, ?);";
