@@ -1,6 +1,8 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
+import com.accenture.jive.animalshelter.factories.CatFactory;
+import com.accenture.jive.animalshelter.factories.DogFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -57,7 +59,7 @@ public class AnimalShelter {
 
         List<Commando> commandos = new ArrayList<>();
         //Creating an instance of addCommando to use its function
-        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter);
+        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter, connection);
 
         //Creating an instance of showCommando so that all animals in the shelter can be printed
         Commando showCommando = new ShowCommando(connection);
