@@ -16,15 +16,14 @@ public class AddCommando implements Commando {
     public Scanner scanner;
     public CatFactory catFactory;
     private final DogFactory dogFactory;
-    public ArrayList<Animal> animalsInShelter;
     private final Connection connection;
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, ArrayList<Animal> animalsInShelter, Connection connection) {
+    public AddCommando(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection) {
         this.scanner = scanner;
         this.catFactory = catFactory;
         this.dogFactory = dogFactory;
-        this.animalsInShelter = animalsInShelter;
+
         this.connection = connection;
     }
 

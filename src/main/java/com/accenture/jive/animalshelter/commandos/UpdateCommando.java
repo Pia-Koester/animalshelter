@@ -16,6 +16,8 @@ public class UpdateCommando implements Commando {
 
     @Override
     public boolean execute() throws SQLException {
+        System.out.println("The Animals are celebrating a birthday - Select which cat got one year older");
+
         return true;
     }
 
