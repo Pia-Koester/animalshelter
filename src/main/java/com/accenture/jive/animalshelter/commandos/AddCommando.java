@@ -84,7 +84,7 @@ public class AddCommando implements Commando {
 
         int i = preparedStatement1.executeUpdate();
         if (i > 0) {
-            System.out.println("Animal successfully added!");
+            System.out.println("\u001B[36m" + "200: Animal successfully added!" + "\u001B[0m");
         }
 
         return true; //Muss returned werden, weil mein Commando ja jetzt einen return value boolean hat
