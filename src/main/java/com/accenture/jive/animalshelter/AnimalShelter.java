@@ -61,7 +61,7 @@ public class AnimalShelter {
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
-        Commando updateCommando = new UpdateCommando(scanner, connection);
+        Commando updateCommando = new UpdateCommando(scanner, connection, animalService);
 
         commandos.add(addCommando);
         commandos.add(showCommando);

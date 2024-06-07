@@ -44,8 +44,10 @@ public class AnimalService {
 
             String animalName = resultSet.getString("animal_name");
             Integer animalAge = resultSet.getInt("age");
+            Integer animalID = resultSet.getInt("animal_id");
             createdAnimal.setName(animalName);
             createdAnimal.setAge(animalAge);
+            createdAnimal.setId(animalID);
         }
         return animals;
     }
