@@ -3,6 +3,7 @@ package com.accenture.jive.animalshelter;
 import com.accenture.jive.animalshelter.commandos.*;
 import com.accenture.jive.animalshelter.factories.CatFactory;
 import com.accenture.jive.animalshelter.factories.DogFactory;
+import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,20 +22,15 @@ public class AnimalShelter {
         CatFactory catFactory = new CatFactory();
         DogFactory dogFactory = new DogFactory();
 
-        //creating first animal as a test
-        //IMPORTANT: since AnimalFactory and the method is non static we use them outside ot the main method
-        Cat mieke = catFactory.createAnimal("Mieke", 6);
-
-        ArrayList<Animal> animalsInShelter = new ArrayList<>();
-        animalsInShelter.add(mieke);
-
         //Creating the scanner to use throughout the REPL application
         //The Scanner constructor always need some parameters like System.in
         Scanner scanner = new Scanner(System.in);
 
-        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, animalsInShelter, connection);
 
+        //Service classes
+        AnimalService animalService = new AnimalService(connection);
 
+        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, connection, animalService);
         //Loop so that the user gets prompted to select a repl action
         //condition to ensure loop does not loop indefinitely
         boolean runApp = true;
@@ -54,22 +50,24 @@ public class AnimalShelter {
         System.out.println("Bye bye. ");
     }
 
-    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, ArrayList<Animal> animalsInShelter, Connection connection) {
+    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService) {
 
 
         List<Commando> commandos = new ArrayList<>();
         //Creating an instance of addCommando to use its function
-        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, animalsInShelter, connection);
+        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection);
 
         //Creating an instance of showCommando so that all animals in the shelter can be printed
-        Commando showCommando = new ShowCommando(connection);
+        Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
+        Commando updateCommando = new UpdateCommando(scanner, connection, animalService);
 
         commandos.add(addCommando);
         commandos.add(showCommando);
         commandos.add(exitCommando);
         commandos.add(showByIdCommando);
+        commandos.add(updateCommando);
         return commandos;
     }
 
