@@ -1,4 +1,6 @@
-package com.accenture.jive.animalshelter;
+package com.accenture.jive.animalshelter.factories;
+
+import com.accenture.jive.animalshelter.Cat;
 
 public class CatFactory {
     public Cat createAnimal(String name, int age) {

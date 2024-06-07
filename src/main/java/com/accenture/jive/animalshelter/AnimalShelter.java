@@ -1,6 +1,8 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
+import com.accenture.jive.animalshelter.factories.CatFactory;
+import com.accenture.jive.animalshelter.factories.DogFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
