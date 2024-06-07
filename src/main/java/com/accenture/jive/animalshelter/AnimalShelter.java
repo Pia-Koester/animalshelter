@@ -1,9 +1,6 @@
 package com.accenture.jive.animalshelter;
 
-import com.accenture.jive.animalshelter.commandos.AddCommando;
-import com.accenture.jive.animalshelter.commandos.Commando;
-import com.accenture.jive.animalshelter.commandos.ExitCommando;
-import com.accenture.jive.animalshelter.commandos.ShowCommando;
+import com.accenture.jive.animalshelter.commandos.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -65,9 +62,12 @@ public class AnimalShelter {
         //Creating an instance of showCommando so that all animals in the shelter can be printed
         Commando showCommando = new ShowCommando(connection);
         Commando exitCommando = new ExitCommando();
+        Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
+
         commandos.add(addCommando);
         commandos.add(showCommando);
         commandos.add(exitCommando);
+        commandos.add(showByIdCommando);
         return commandos;
     }
 
