@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Animal {
     public String name;
-    public int age;
+    public Integer age;
 
     //To be able to have an empty method which the child classes need to finish we use the keyword abstract
     public abstract void makeSound();
@@ -15,6 +15,22 @@ public abstract class Animal {
         if (o == null || getClass() != o.getClass()) return false;
         Animal animal = (Animal) o;
         return age == animal.age && Objects.equals(name, animal.name);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override
