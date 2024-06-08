@@ -23,7 +23,7 @@ public class UpdateCommando implements Commando {
 
     @Override
     public boolean execute() throws SQLException {
-        System.out.println("The Animals are celebrating a birthday - Select which cat got one year older");
+        System.out.println("The Animals are celebrating a birthday - Select which animal got one year older");
         List<Animal> animals = animalService.readAnimals();
 
         for (Animal animal : animals) {
@@ -31,7 +31,7 @@ public class UpdateCommando implements Commando {
         }
 
         String animalIdString = scanner.nextLine();
-        Integer animalId = Integer.parseInt(animalIdString);
+        Integer animalId = Integer.parseInt(animalIdString.trim());
 
         String sql = "UPDATE animal " +
                 "SET age = age + 1 " +
