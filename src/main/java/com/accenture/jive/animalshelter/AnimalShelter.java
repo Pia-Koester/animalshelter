@@ -62,12 +62,14 @@ public class AnimalShelter {
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
         Commando updateCommando = new UpdateCommando(scanner, connection, animalService);
+        Commando removeCommando = new RemoveCommando(scanner, connection, animalService);
 
         commandos.add(addCommando);
         commandos.add(showCommando);
         commandos.add(exitCommando);
         commandos.add(showByIdCommando);
         commandos.add(updateCommando);
+        commandos.add(removeCommando);
         return commandos;
     }
 
