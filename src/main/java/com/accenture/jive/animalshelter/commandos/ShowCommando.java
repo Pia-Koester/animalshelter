@@ -27,12 +27,16 @@ public class ShowCommando implements Commando {
     }
 
     @Override
-    public boolean execute() throws SQLException {
+    public boolean execute() throws CommandoException {
 
-        List<Animal> animals = animalService.readAnimals();
-        System.out.println("All these animals are waiting for their forever home: ");
-        for (Animal animal : animals) {
-            System.out.println(animal.getName() + " is " + animal.getAge() + " years old");
+        try {
+            List<Animal> animals = animalService.readAnimals();
+            System.out.println("All these animals are waiting for their forever home: ");
+            for (Animal animal : animals) {
+                System.out.println(animal.getName() + " is " + animal.getAge() + " years old");
+            }
+        } catch (SQLException e) {
+            throw new CommandoException("Animals cannot be shown", e);
         }
 
         //TODO: filter and give out two lists: one for dogs and one for cats
