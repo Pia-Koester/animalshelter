@@ -15,34 +15,31 @@ public class AnimalShelter {
 
     public void run(Connection connection) {
 
-
-        //importing and setting up the factories to create new animal objects
         CatFactory catFactory = new CatFactory();
         DogFactory dogFactory = new DogFactory();
 
-        //Creating the scanner to use throughout the REPL application
-        //The Scanner constructor always need some parameters like System.in
         Scanner scanner = new Scanner(System.in);
 
-
-        //Service classes
         AnimalService animalService = new AnimalService(connection);
 
         List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, connection, animalService);
-        //Loop so that the user gets prompted to select a repl action
-        //condition to ensure loop does not loop indefinitely
-        boolean runApp = true;
 
+        boolean runApp = true;
         while (runApp) {
             System.out.println("Welcome to the Animal Shelter. How can we help you? ");
             System.out.println("Enter 'show' to see all animals. Enter 'add' to abandon your animal.");
             String userInput = scanner.nextLine();
             for (Commando commando : commandos) {
                 if (commando.shouldExecute(userInput)) {
-                    runApp = commando.execute();
+                    try {
+                        runApp = commando.execute();
+                    } catch (CommandoException e) {
+                        System.out.println("Something went wrong");
+                        e.printStackTrace();
+                    }
                 }
             }
-            //QUESTION: Wie könnte ich hier sowas wie - kein passendes Kommando als Rückmeldung einbauen?
+            //TODO: Wie könnte ich hier sowas wie - kein passendes Kommando als Rückmeldung einbauen?
             //if(!ran) {dann rückmeldung dass das usercommando bullshit war}
         }
 
@@ -51,13 +48,9 @@ public class AnimalShelter {
     }
 
     public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService) {
-
-
         List<Commando> commandos = new ArrayList<>();
-        //Creating an instance of addCommando to use its function
-        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection, animalService);
 
-        //Creating an instance of showCommando so that all animals in the shelter can be printed
+        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection, animalService);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
@@ -77,7 +70,6 @@ public class AnimalShelter {
         try {
             Connector connector = new Connector();
             Connection connection = connector.getConnection();
-            //IMPORTANT: for the run method to work we need an object, so we first create an object of the class AnimalShelter
             AnimalShelter animalShelter = new AnimalShelter();
             animalShelter.run(connection);
         } catch (SQLException e) {

@@ -22,34 +22,38 @@ public class UpdateCommando implements Commando {
     }
 
     @Override
-    public boolean execute() throws SQLException {
+    public boolean execute() throws CommandoException {
         System.out.println("The Animals are celebrating a birthday - Select which animal got one year older");
-        List<Animal> animals = animalService.readAnimals();
+        try {
+            List<Animal> animals = animalService.readAnimals();
 
-        for (Animal animal : animals) {
-            System.out.println(animal.getId() + " - Name: " + animal.getName() + " age: " + animal.getAge());
-        }
+            for (Animal animal : animals) {
+                System.out.println(animal.getId() + " - Name: " + animal.getName() + " age: " + animal.getAge());
+            }
 
-        String animalIdString = scanner.nextLine();
-        Integer animalId = Integer.parseInt(animalIdString.trim());
+            String animalIdString = scanner.nextLine();
+            Integer animalId = Integer.parseInt(animalIdString.trim());
 
-        String sql = "UPDATE animal " +
-                "SET age = age + 1 " +
-                "WHERE animal_id = ?;";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, animalId);
+            String sql = "UPDATE animal " +
+                    "SET age = age + 1 " +
+                    "WHERE animal_id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, animalId);
 
-        //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
-        int i = preparedStatement.executeUpdate();
-        if (i > 0) {
-            System.out.println("\u001B[36m" + "200: Update successfull - Happy Birthday!" + "\u001B[0m");
-        }
+            //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
+            int i = preparedStatement.executeUpdate();
+            if (i > 0) {
+                System.out.println("\u001B[36m" + "200: Update successfull - Happy Birthday!" + "\u001B[0m");
+            }
 
-        List<Animal> updatedAnimals = animalService.readAnimals();
+            List<Animal> updatedAnimals = animalService.readAnimals();
 
-        for (Animal updatedAnimal : updatedAnimals) {
-            System.out.println(updatedAnimal.getId() + " - Name: " + updatedAnimal.getName() + " age: " + updatedAnimal.getAge());
+            for (Animal updatedAnimal : updatedAnimals) {
+                System.out.println(updatedAnimal.getId() + " - Name: " + updatedAnimal.getName() + " age: " + updatedAnimal.getAge());
 
+            }
+        } catch (SQLException e) {
+            throw new CommandoException("Updating the animal did not work", e);
         }
 
 
