@@ -39,6 +39,7 @@ public class UpdateCommando implements Commando {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, animalId);
 
+        //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
         int i = preparedStatement.executeUpdate();
         if (i > 0) {
             System.out.println("\u001B[36m" + "200: Update successfull - Happy Birthday!" + "\u001B[0m");

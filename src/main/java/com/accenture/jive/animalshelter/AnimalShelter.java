@@ -13,10 +13,8 @@ import java.util.Scanner;
 
 public class AnimalShelter {
 
-    public void run() throws SQLException {
+    public void run(Connection connection) {
 
-        Connector connector = new Connector();
-        Connection connection = connector.getConnection();
 
         //importing and setting up the factories to create new animal objects
         CatFactory catFactory = new CatFactory();
@@ -45,9 +43,11 @@ public class AnimalShelter {
                 }
             }
             //QUESTION: Wie könnte ich hier sowas wie - kein passendes Kommando als Rückmeldung einbauen?
+            //if(!ran) {dann rückmeldung dass das usercommando bullshit war}
         }
 
         System.out.println("Bye bye. ");
+
     }
 
     public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService) {
@@ -55,7 +55,7 @@ public class AnimalShelter {
 
         List<Commando> commandos = new ArrayList<>();
         //Creating an instance of addCommando to use its function
-        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection);
+        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection, animalService);
 
         //Creating an instance of showCommando so that all animals in the shelter can be printed
         Commando showCommando = new ShowCommando(animalService);
@@ -73,9 +73,16 @@ public class AnimalShelter {
         return commandos;
     }
 
-    public static void main(String[] args) throws SQLException {
-        //IMPORTANT: for the run method to work we need an object, so we first create an object of the class AnimalShelter
-        AnimalShelter animalShelter = new AnimalShelter();
-        animalShelter.run();
+    public static void main(String[] args) {
+        try {
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
+            //IMPORTANT: for the run method to work we need an object, so we first create an object of the class AnimalShelter
+            AnimalShelter animalShelter = new AnimalShelter();
+            animalShelter.run(connection);
+        } catch (SQLException e) {
+            System.out.println("oops, something went wrong ... ");
+            e.printStackTrace();
+        }
     }
 }

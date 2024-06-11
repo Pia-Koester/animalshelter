@@ -22,7 +22,7 @@ public class AnimalService {
     }
 
     public List<Animal> readAnimals() throws SQLException {
-        String sql = "SELECT animal_id, animal_name, age, type_name FROM animal \n" +
+        String sql = "SELECT animal_id, animal_name, age, type_name FROM animal " +
                 " JOIN type ON animal.type_id= type.type_id;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -33,7 +33,6 @@ public class AnimalService {
             String animalType = resultSet.getString("type_name");
             Animal createdAnimal;
 
-            //QUESTION: ich will hier eine Lösung haben für Tiere die keinen der beiden Types haben, wie gehe ich vor?
             if ("cat".equals(animalType)) {
                 createdAnimal = new Cat();
             } else {

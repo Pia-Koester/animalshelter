@@ -1,14 +1,12 @@
 package com.accenture.jive.animalshelter.commandos;
 
-import com.accenture.jive.animalshelter.*;
 import com.accenture.jive.animalshelter.factories.CatFactory;
 import com.accenture.jive.animalshelter.factories.DogFactory;
+import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddCommando implements Commando {
@@ -17,18 +15,20 @@ public class AddCommando implements Commando {
     public CatFactory catFactory;
     private final DogFactory dogFactory;
     private final Connection connection;
+    private final AnimalService animalService;
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection) {
+    public AddCommando(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService) {
         this.scanner = scanner;
         this.catFactory = catFactory;
         this.dogFactory = dogFactory;
 
         this.connection = connection;
+        this.animalService = animalService;
     }
 
     @Override
-    public boolean execute() throws SQLException {
+    public boolean execute() throws CommandoException {
         System.out.println("What is this animals species? Enter the appropriate id");
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM type;");
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -63,7 +63,6 @@ public class AddCommando implements Commando {
         if ("exit".equalsIgnoreCase(animalAge.trim())) {
             return false;
         }
-        //QUESTION: How can I write an error message telling users to only enter a number? - if exit is allowed this doesn't work??
         int parsedAge;
         try {
             parsedAge = Integer.parseInt(animalAge);
@@ -86,6 +85,7 @@ public class AddCommando implements Commando {
         if (i > 0) {
             System.out.println("\u001B[36m" + "200: Animal successfully added!" + "\u001B[0m");
         }
+        //TODO: read last id methode und dann id mit object zurückgeben
 
         return true; //Muss returned werden, weil mein Commando ja jetzt einen return value boolean hat
 
