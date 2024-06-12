@@ -1,6 +1,9 @@
 package com.accenture.jive.animalshelter.commandos;
 
 public class HelpCommando implements Commando {
+
+    //QUESTION: ich würde die Farben gerne für mehr Verständlichkeit als Konstanten wo anlegen, aber ich möchte sie überall nutzen können.
+    // wie gehe ich hier vor?
     @Override
     public boolean execute() throws CommandoException {
         System.out.println("Here is how you can navigate our Animalshelter:");

@@ -2,14 +2,10 @@ package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Dog;
-import com.accenture.jive.animalshelter.factories.CatFactory;
-import com.accenture.jive.animalshelter.factories.DogFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 

@@ -1,8 +1,6 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
-import com.accenture.jive.animalshelter.factories.CatFactory;
-import com.accenture.jive.animalshelter.factories.DogFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
@@ -16,15 +14,12 @@ public class AnimalShelter {
 
     public void run(Connection connection) {
 
-        CatFactory catFactory = new CatFactory();
-        DogFactory dogFactory = new DogFactory();
-
         Scanner scanner = new Scanner(System.in);
 
         AnimalService animalService = new AnimalService(connection);
         AnimalTypeService animalTypeService = new AnimalTypeService(connection);
 
-        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, connection, animalService, animalTypeService);
+        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService);
 
         boolean runApp = true;
         while (runApp) {
@@ -49,7 +44,7 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
+    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
         List<Commando> commandos = new ArrayList<>();
 
         Commando addCommando = new AddCommando(scanner, connection, animalService, animalTypeService);
