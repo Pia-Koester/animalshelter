@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
+import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
@@ -12,16 +13,12 @@ import java.util.Scanner;
 public class AddCommando implements Commando {
 
     public Scanner scanner;
-    private final Connection connection;
     private final AnimalService animalService;
     private final AnimalTypeService animalTypeService;
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
+    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService) {
         this.scanner = scanner;
-
-
-        this.connection = connection;
         this.animalService = animalService;
         this.animalTypeService = animalTypeService;
     }
@@ -33,18 +30,18 @@ public class AddCommando implements Commando {
 
             animalTypeService.readAnimalTypes();
 
-            String animalSpecies = scanner.nextLine();
-            if ("exit".equalsIgnoreCase(animalSpecies.trim())) {
+            String animalType = scanner.nextLine();
+            if ("exit".equalsIgnoreCase(animalType.trim())) {
                 return false;
             }
 
-            Integer animalSpeciesId = null;
+            Integer animalTypeId = null;
             try {
-                animalSpeciesId = Integer.parseInt(animalSpecies);
+                animalTypeId = Integer.parseInt(animalType);
             } catch (NumberFormatException e) {
                 System.out.println("Enter a valid ID - this must be a number");
-                animalSpecies = scanner.nextLine();
-                animalSpeciesId = Integer.parseInt(animalSpecies);
+                animalType = scanner.nextLine();
+                animalTypeId = Integer.parseInt(animalType);
             }
             System.out.println("What is the animals name?");
             String animalName = scanner.nextLine();
@@ -64,17 +61,25 @@ public class AddCommando implements Commando {
                 System.out.println("Please enter a valid age- this must be a number");
                 animalAge = scanner.nextLine();
                 parsedAge = Integer.parseInt(animalAge);
-                //throw new RuntimeException(e);
+
             }
-            //SQL Funktion in den Animal service und das Animal als Objekt übergeben
 
+            String retrievedAnimalType = animalTypeService.readAnimalTypeById(animalTypeId);
 
-            //TODO: neue Methode readTypeById - dann basierend auf der Antwort entscheiden welches Objekt erstellt wird
-            Animal animal = new Dog();
-            animal.setName(animalName);
-            animal.setAge(parsedAge);
+            System.out.println(retrievedAnimalType);
 
-            int i = animalService.addAnimal(animal, animalSpeciesId);
+            Animal animal;
+            if ("cat".equals(retrievedAnimalType)) {
+                animal = new Cat();
+                animal.setName(animalName);
+                animal.setAge(parsedAge);
+            } else {
+                animal = new Dog();
+                animal.setName(animalName);
+                animal.setAge(parsedAge);
+            }
+
+            int i = animalService.addAnimal(animal, animalTypeId);
 
             if (i > 0) {
                 System.out.println("\u001B[36m" + "200: Animal successfully added!" + "\u001B[0m");

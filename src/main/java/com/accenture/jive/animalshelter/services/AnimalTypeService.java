@@ -24,4 +24,20 @@ public class AnimalTypeService {
             System.out.println("- " + typeId + "--> " + typeName);
         }
     }
+
+    public String readAnimalTypeById(Integer typeId) throws SQLException {
+
+        String sql = "SELECT * FROM type WHERE type_id = ? ";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, typeId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next()) {
+            return "Not found";
+        }
+
+        return resultSet.getString("type_name");
+
+    }
+
 }

@@ -48,8 +48,7 @@ public class UpdateCommando implements Commando {
         } catch (SQLException e) {
             throw new CommandoException("Updating the animal did not work", e);
         }
-
-
+        
         return true;
     }
 

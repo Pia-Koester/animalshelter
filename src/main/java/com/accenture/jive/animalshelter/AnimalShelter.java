@@ -47,7 +47,7 @@ public class AnimalShelter {
     public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
         List<Commando> commandos = new ArrayList<>();
 
-        Commando addCommando = new AddCommando(scanner, connection, animalService, animalTypeService);
+        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
