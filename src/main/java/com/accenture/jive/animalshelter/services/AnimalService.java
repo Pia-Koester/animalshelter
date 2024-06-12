@@ -51,4 +51,18 @@ public class AnimalService {
         return animals;
     }
 
+
+    public int addAnimal(Animal animal, Integer animalSpeciesId) throws SQLException {
+
+
+        String insertSQL = "INSERT INTO animalshelter.animal (animal_name, age, type_id) " +
+                "VALUES(?, ?, ?);";
+
+        PreparedStatement preparedStatement1 = connection.prepareStatement(insertSQL);
+        preparedStatement1.setString(1, animal.getName());
+        preparedStatement1.setInt(2, animal.getAge());
+        preparedStatement1.setInt(3, animalSpeciesId); //QUESTION: Wie mache ich das?
+
+        return preparedStatement1.executeUpdate();
+    }
 }

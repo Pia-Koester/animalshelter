@@ -4,7 +4,7 @@ import com.accenture.jive.animalshelter.Dog;
 
 public class DogFactory {
 
-    public Dog createAnimal(String name, int age) {
+    public Dog createAnimal(String name, int age, int id) {
         Dog dog = new Dog();
         dog.name = name;
         dog.age = age;
