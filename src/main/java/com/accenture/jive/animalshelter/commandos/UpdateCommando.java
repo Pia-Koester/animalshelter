@@ -11,13 +11,11 @@ import java.util.Scanner;
 
 public class UpdateCommando implements Commando {
     private final Scanner scanner;
-    private final Connection connection;
     private final AnimalService animalService;
 
-    public UpdateCommando(Scanner scanner, Connection connection, AnimalService animalService) {
+    public UpdateCommando(Scanner scanner, AnimalService animalService) {
 
         this.scanner = scanner;
-        this.connection = connection;
         this.animalService = animalService;
     }
 
@@ -48,7 +46,7 @@ public class UpdateCommando implements Commando {
         } catch (SQLException e) {
             throw new CommandoException("Updating the animal did not work", e);
         }
-        
+
         return true;
     }
 
