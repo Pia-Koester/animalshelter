@@ -65,4 +65,16 @@ public class AnimalService {
 
         return preparedStatement1.executeUpdate();
     }
+
+    public int updateAnimal(Integer animalId) throws SQLException {
+        String sql = "UPDATE animal " +
+                "SET age = age + 1 " +
+                "WHERE animal_id = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, animalId);
+
+        //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
+        int i = preparedStatement.executeUpdate();
+        return i;
+    }
 }

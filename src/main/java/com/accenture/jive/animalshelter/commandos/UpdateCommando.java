@@ -34,14 +34,7 @@ public class UpdateCommando implements Commando {
             String animalIdString = scanner.nextLine();
             Integer animalId = Integer.parseInt(animalIdString.trim());
 
-            String sql = "UPDATE animal " +
-                    "SET age = age + 1 " +
-                    "WHERE animal_id = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, animalId);
-
-            //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
-            int i = preparedStatement.executeUpdate();
+            int i = animalService.updateAnimal(animalId);
             if (i > 0) {
                 System.out.println("\u001B[36m" + "200: Update successfull - Happy Birthday!" + "\u001B[0m");
             }
@@ -59,6 +52,7 @@ public class UpdateCommando implements Commando {
 
         return true;
     }
+
 
     @Override
     public boolean shouldExecute(String userCommando) {
