@@ -39,7 +39,6 @@ public class ShowCommando implements Commando {
             throw new CommandoException("Animals cannot be shown", e);
         }
 
-        //TODO: filter and give out two lists: one for dogs and one for cats
         return true;
     }
 

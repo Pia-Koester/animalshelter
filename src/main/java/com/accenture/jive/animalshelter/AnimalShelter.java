@@ -1,9 +1,8 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
-import com.accenture.jive.animalshelter.factories.CatFactory;
-import com.accenture.jive.animalshelter.factories.DogFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
+import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,19 +14,17 @@ public class AnimalShelter {
 
     public void run(Connection connection) {
 
-        CatFactory catFactory = new CatFactory();
-        DogFactory dogFactory = new DogFactory();
-
         Scanner scanner = new Scanner(System.in);
 
         AnimalService animalService = new AnimalService(connection);
+        AnimalTypeService animalTypeService = new AnimalTypeService(connection);
 
-        List<Commando> commandos = createCommandos(scanner, catFactory, dogFactory, connection, animalService);
+        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService);
 
         boolean runApp = true;
         while (runApp) {
             System.out.println("Welcome to the Animal Shelter. How can we help you? ");
-            System.out.println("Enter 'show' to see all animals. Enter 'add' to abandon your animal.");
+            System.out.println("Enter 'help' if you don't know what to do");
             String userInput = scanner.nextLine();
             for (Commando commando : commandos) {
                 if (commando.shouldExecute(userInput)) {
@@ -47,15 +44,16 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, CatFactory catFactory, DogFactory dogFactory, Connection connection, AnimalService animalService) {
+    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
         List<Commando> commandos = new ArrayList<>();
 
-        Commando addCommando = new AddCommando(scanner, catFactory, dogFactory, connection, animalService);
+        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
-        Commando updateCommando = new UpdateCommando(scanner, connection, animalService);
-        Commando removeCommando = new RemoveCommando(scanner, connection, animalService);
+        Commando updateCommando = new UpdateCommando(scanner, animalService);
+        Commando removeCommando = new RemoveCommando(scanner, animalService);
+        Commando helpCommando = new HelpCommando();
 
         commandos.add(addCommando);
         commandos.add(showCommando);
@@ -63,6 +61,7 @@ public class AnimalShelter {
         commandos.add(showByIdCommando);
         commandos.add(updateCommando);
         commandos.add(removeCommando);
+        commandos.add(helpCommando);
         return commandos;
     }
 

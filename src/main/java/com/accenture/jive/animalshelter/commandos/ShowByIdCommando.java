@@ -24,7 +24,14 @@ public class ShowByIdCommando implements Commando {
         if ("exit".equals(animalIdAsString)) {
             return false;
         }
-        Integer animalId = Integer.parseInt(animalIdAsString);
+        Integer animalId = null;
+        try {
+            animalId = Integer.parseInt(animalIdAsString);
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid id- this must be a number");
+            animalIdAsString = scanner.nextLine();
+            animalId = Integer.parseInt(animalIdAsString);
+        }
 
         try {
             String sql =

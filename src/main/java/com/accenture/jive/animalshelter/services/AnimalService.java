@@ -51,4 +51,39 @@ public class AnimalService {
         return animals;
     }
 
+
+    public int addAnimal(Animal animal, Integer animalSpeciesId) throws SQLException {
+
+
+        String insertSQL = "INSERT INTO animalshelter.animal (animal_name, age, type_id) " +
+                "VALUES(?, ?, ?);";
+
+        PreparedStatement preparedStatement1 = connection.prepareStatement(insertSQL);
+        preparedStatement1.setString(1, animal.getName());
+        preparedStatement1.setInt(2, animal.getAge());
+        preparedStatement1.setInt(3, animalSpeciesId); //QUESTION: Wie mache ich das?
+
+        return preparedStatement1.executeUpdate();
+    }
+
+    public int updateAnimal(Integer animalId) throws SQLException {
+        String sql = "UPDATE animal " +
+                "SET age = age + 1 " +
+                "WHERE animal_id = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, animalId);
+
+        //QUESTION: passt das so? - ich wil eine erfolgsmeldung schicken
+        int i = preparedStatement.executeUpdate();
+        return i;
+    }
+
+    public int removeAnimal(Integer selectedAnimalId) throws SQLException {
+        String sql = "DELETE FROM animalshelter.animal " +
+                "WHERE animal_id = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, selectedAnimalId);
+
+        return preparedStatement.executeUpdate();
+    }
 }
