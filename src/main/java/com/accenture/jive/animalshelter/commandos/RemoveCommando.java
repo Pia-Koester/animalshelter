@@ -11,13 +11,11 @@ import java.util.Scanner;
 
 public class RemoveCommando implements Commando {
     private final Scanner scanner;
-    private final Connection connection;
     private final AnimalService animalService;
 
-    public RemoveCommando(Scanner scanner, Connection connection, AnimalService animalService) {
+    public RemoveCommando(Scanner scanner, AnimalService animalService) {
 
         this.scanner = scanner;
-        this.connection = connection;
         this.animalService = animalService;
     }
 
@@ -33,10 +31,12 @@ public class RemoveCommando implements Commando {
 
             String selectedAnimalIdAsString = scanner.nextLine();
 
+//QUESTION: das exit mache ich immer und immer wieder - wo kann ich es hinpacken sodass ich es wiederverwenden kann?
             if ("exit".equalsIgnoreCase(selectedAnimalIdAsString)) {
                 return false;
             }
             Integer selectedAnimalId = null;
+            //QUESTION: diesen Zahlen Test mache ich immer wieder - wie mehrfach nutzbar machen?
             try {
                 selectedAnimalId = Integer.parseInt(selectedAnimalIdAsString);
             } catch (NumberFormatException e) {
@@ -45,12 +45,7 @@ public class RemoveCommando implements Commando {
                 selectedAnimalId = Integer.parseInt(selectedAnimalIdAsString);
             }
 
-            String sql = "DELETE FROM animalshelter.animal " +
-                    "WHERE animal_id = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, selectedAnimalId);
-
-            int i = preparedStatement.executeUpdate();
+            int i = animalService.removeAnimal(selectedAnimalId);
             if (i > 0) {
                 System.out.println("\u001B[36m" + "204: Removal from Shelter successfull" + "\u001B[0m");
             }
@@ -60,6 +55,7 @@ public class RemoveCommando implements Commando {
 
         return true;
     }
+
 
     @Override
     public boolean shouldExecute(String userCommando) {

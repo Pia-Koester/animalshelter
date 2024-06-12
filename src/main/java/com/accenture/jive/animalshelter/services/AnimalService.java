@@ -77,4 +77,13 @@ public class AnimalService {
         int i = preparedStatement.executeUpdate();
         return i;
     }
+
+    public int removeAnimal(Integer selectedAnimalId) throws SQLException {
+        String sql = "DELETE FROM animalshelter.animal " +
+                "WHERE animal_id = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, selectedAnimalId);
+
+        return preparedStatement.executeUpdate();
+    }
 }
