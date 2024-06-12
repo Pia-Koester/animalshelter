@@ -1,8 +1,7 @@
 package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
-import com.accenture.jive.animalshelter.Cat;
-import com.accenture.jive.animalshelter.Dog;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.factories.AnimalFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
@@ -17,6 +16,7 @@ public class AddCommando implements Commando {
     private final AnimalTypeService animalTypeService;
     private final AnimalFactory animalFactory;
 
+
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
     public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory) {
         this.scanner = scanner;
@@ -27,48 +27,36 @@ public class AddCommando implements Commando {
 
     @Override
     public boolean execute() throws CommandoException {
-        System.out.println("What is this animals species? Enter the appropriate id");
+        UserInteraction userInteraction = new UserInteraction();
+
+        System.out.println("Which animal do you want to abandon? ");
         try {
-
             animalTypeService.readAnimalTypes();
+            Integer animalTypeId =
+                    userInteraction
+                            .askForNumber(scanner,
+                                    "What is this animals species? Enter the id",
+                                    "please enter a number");
+//            if ("exit".equalsIgnoreCase(animalType.trim())) {
+//                return false;
+//            }
 
-            String animalType = scanner.nextLine();
-            if ("exit".equalsIgnoreCase(animalType.trim())) {
-                return false;
-            }
-
-            Integer animalTypeId = null;
-            try {
-                animalTypeId = Integer.parseInt(animalType);
-            } catch (NumberFormatException e) {
-                System.out.println("Enter a valid ID - this must be a number");
-                animalType = scanner.nextLine();
-                animalTypeId = Integer.parseInt(animalType);
-            }
             System.out.println("What is the animals name?");
             String animalName = scanner.nextLine();
             if ("exit".equalsIgnoreCase(animalName.trim())) {
                 return false;
             }
-            System.out.println("How old is this Animal? Enter a number");
-            String animalAge = scanner.nextLine();
 
-            if ("exit".equalsIgnoreCase(animalAge.trim())) {
-                return false;
-            }
-            int parsedAge;
-            try {
-                parsedAge = Integer.parseInt(animalAge);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid age- this must be a number");
-                animalAge = scanner.nextLine();
-                parsedAge = Integer.parseInt(animalAge);
+//            if ("exit".equalsIgnoreCase(animalAge.trim())) {
+//                return false;
+//            }
+            int parsedAge = userInteraction
+                    .askForNumber(scanner,
+                            "How old is this Animal? Enter a number",
+                            "Please enter a valid age- this must be a number");
 
-            }
 
             String retrievedAnimalType = animalTypeService.readAnimalTypeById(animalTypeId);
-
-            System.out.println(retrievedAnimalType);
 
             Animal animal = animalFactory.create(retrievedAnimalType, animalName, parsedAge);
 

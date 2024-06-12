@@ -52,7 +52,7 @@ public class AnimalShelter {
         Commando addCommando = new AddCommando(scanner, animalService, animalTypeService, animalFactory);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
-        Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
+        Commando showByIdCommando = new ShowByIdCommando(scanner, animalService);
         Commando updateCommando = new UpdateCommando(scanner, animalService);
         Commando removeCommando = new RemoveCommando(scanner, animalService);
         Commando helpCommando = new HelpCommando();
