@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
+import com.accenture.jive.animalshelter.factories.AnimalFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
@@ -18,8 +19,9 @@ public class AnimalShelter {
 
         AnimalService animalService = new AnimalService(connection);
         AnimalTypeService animalTypeService = new AnimalTypeService(connection);
+        AnimalFactory animalFactory = new AnimalFactory();
 
-        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService);
+        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService, animalFactory);
 
         boolean runApp = true;
         while (runApp) {
@@ -44,10 +46,10 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
+    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory) {
         List<Commando> commandos = new ArrayList<>();
 
-        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService);
+        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService, animalFactory);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(scanner, connection);

@@ -3,10 +3,10 @@ package com.accenture.jive.animalshelter.commandos;
 import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
+import com.accenture.jive.animalshelter.factories.AnimalFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -15,12 +15,14 @@ public class AddCommando implements Commando {
     public Scanner scanner;
     private final AnimalService animalService;
     private final AnimalTypeService animalTypeService;
+    private final AnimalFactory animalFactory;
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService) {
+    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory) {
         this.scanner = scanner;
         this.animalService = animalService;
         this.animalTypeService = animalTypeService;
+        this.animalFactory = animalFactory;
     }
 
     @Override
@@ -68,16 +70,7 @@ public class AddCommando implements Commando {
 
             System.out.println(retrievedAnimalType);
 
-            Animal animal;
-            if ("cat".equals(retrievedAnimalType)) {
-                animal = new Cat();
-                animal.setName(animalName);
-                animal.setAge(parsedAge);
-            } else {
-                animal = new Dog();
-                animal.setName(animalName);
-                animal.setAge(parsedAge);
-            }
+            Animal animal = animalFactory.create(retrievedAnimalType, animalName, parsedAge);
 
             int i = animalService.addAnimal(animal, animalTypeId);
 
