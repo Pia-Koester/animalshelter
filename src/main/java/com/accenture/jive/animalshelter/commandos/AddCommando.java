@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class AddCommando implements Commando {
 
-    public Scanner scanner;
     private final AnimalService animalService;
     private final AnimalTypeService animalTypeService;
     private final AnimalFactory animalFactory;
@@ -19,8 +18,8 @@ public class AddCommando implements Commando {
 
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
-        this.scanner = scanner;
+    public AddCommando(AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
+
         this.animalService = animalService;
         this.animalTypeService = animalTypeService;
         this.animalFactory = animalFactory;
@@ -38,19 +37,11 @@ public class AddCommando implements Commando {
                             .askForNumber(
                                     "What is this animals species? Enter the id",
                                     "please enter a number");
-//            if ("exit".equalsIgnoreCase(animalType.trim())) {
-//                return false;
-//            }
 
-            System.out.println("What is the animals name?");
-            String animalName = scanner.nextLine();
-            if ("exit".equalsIgnoreCase(animalName.trim())) {
+            String animalName = userInteraction.askForString("What is the animals name?");
+            if ("exit".equals(animalName)) {
                 return false;
             }
-
-//            if ("exit".equalsIgnoreCase(animalAge.trim())) {
-//                return false;
-//            }
             int parsedAge = userInteraction
                     .askForNumber(
                             "How old is this Animal? Enter a number",

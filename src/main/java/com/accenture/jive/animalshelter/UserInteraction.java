@@ -23,5 +23,14 @@ public class UserInteraction {
         return parsedUserInput;
     }
 
+    public String askForString(String question) {
+        System.out.println(question);
+        String userInput = scanner.nextLine();
+        if ("exit".equalsIgnoreCase(userInput.trim())) {
+            return "exit";
+        } else {
+            return userInput;
+        }
+    }
 
 }
