@@ -26,15 +26,15 @@ public class AnimalShelter {
 
         boolean runApp = true;
         while (runApp) {
-            System.out.println("Welcome to the Animal Shelter. How can we help you? ");
-            System.out.println("Enter 'help' if you don't know what to do");
+            userInteraction.responseWriter("Welcome to the Animal Shelter. How can we help you? ", null);
+            userInteraction.responseWriter("Enter 'help' if you don't know what to do", "purple");
             String userInput = scanner.nextLine();
             for (Commando commando : commandos) {
                 if (commando.shouldExecute(userInput)) {
                     try {
                         runApp = commando.execute();
                     } catch (CommandoException e) {
-                        System.out.println("Something went wrong");
+                        userInteraction.responseWriter("Something went wrong", "red");
                         e.printStackTrace();
                     }
                 }
@@ -43,7 +43,7 @@ public class AnimalShelter {
             //if(!ran) {dann rückmeldung dass das usercommando bullshit war}
         }
 
-        System.out.println("Bye bye. ");
+        userInteraction.responseWriter("Bye bye. ", "green");
 
     }
 
@@ -51,7 +51,7 @@ public class AnimalShelter {
         List<Commando> commandos = new ArrayList<>();
 
         Commando addCommando = new AddCommando(animalService, animalTypeService, animalFactory, userInteraction);
-        Commando showCommando = new ShowCommando(animalService);
+        Commando showCommando = new ShowCommando(animalService, userInteraction);
         Commando exitCommando = new ExitCommando();
         Commando showByIdCommando = new ShowByIdCommando(animalService, userInteraction);
         Commando updateCommando = new UpdateCommando(animalService, userInteraction);

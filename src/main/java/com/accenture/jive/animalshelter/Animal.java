@@ -7,8 +7,6 @@ public abstract class Animal {
     public Integer age;
     public Integer id;
 
-    //To be able to have an empty method which the child classes need to finish we use the keyword abstract
-    public abstract void makeSound();
 
     @Override
     public boolean equals(Object o) {

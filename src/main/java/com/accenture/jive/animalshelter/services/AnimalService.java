@@ -3,6 +3,7 @@ package com.accenture.jive.animalshelter.services;
 import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.factories.AnimalFactory;
 
 import java.sql.Connection;
@@ -20,6 +21,7 @@ public class AnimalService {
     public AnimalService(Connection connection) {
 
         this.connection = connection;
+
     }
 
     public List<Animal> readAnimals() throws SQLException {
@@ -65,6 +67,7 @@ public class AnimalService {
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
+        //TODO: this must be moved to the commando
         if (!resultSet.next()) {
             System.out.println("404: No animal found!");
 
