@@ -15,26 +15,27 @@ public class AddCommando implements Commando {
     private final AnimalService animalService;
     private final AnimalTypeService animalTypeService;
     private final AnimalFactory animalFactory;
+    private final UserInteraction userInteraction;
 
 
     //This is the constructor which takes all the mandatory information from the AnimalShelter class that we need to create new cats
-    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory) {
+    public AddCommando(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
         this.scanner = scanner;
         this.animalService = animalService;
         this.animalTypeService = animalTypeService;
         this.animalFactory = animalFactory;
+        this.userInteraction = userInteraction;
     }
 
     @Override
     public boolean execute() throws CommandoException {
-        UserInteraction userInteraction = new UserInteraction();
 
         System.out.println("Which animal do you want to abandon? ");
         try {
             animalTypeService.readAnimalTypes();
             Integer animalTypeId =
                     userInteraction
-                            .askForNumber(scanner,
+                            .askForNumber(
                                     "What is this animals species? Enter the id",
                                     "please enter a number");
 //            if ("exit".equalsIgnoreCase(animalType.trim())) {
@@ -51,7 +52,7 @@ public class AddCommando implements Commando {
 //                return false;
 //            }
             int parsedAge = userInteraction
-                    .askForNumber(scanner,
+                    .askForNumber(
                             "How old is this Animal? Enter a number",
                             "Please enter a valid age- this must be a number");
 

@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
@@ -13,28 +14,18 @@ public class ShowByIdCommando implements Commando {
 
     private final Scanner scanner;
     private final AnimalService animalService;
+    private final UserInteraction userInteraction;
 
-    public ShowByIdCommando(Scanner scanner, AnimalService animalService) {
+    public ShowByIdCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
         this.scanner = scanner;
         this.animalService = animalService;
+        this.userInteraction = userInteraction;
     }
 
     @Override
     public boolean execute() throws CommandoException {
 
-        System.out.println("Which animal do you want to see?");
-        String animalIdAsString = scanner.nextLine();
-        if ("exit".equals(animalIdAsString)) {
-            return false;
-        }
-        Integer animalId = null;
-        try {
-            animalId = Integer.parseInt(animalIdAsString);
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid id- this must be a number");
-            animalIdAsString = scanner.nextLine();
-            animalId = Integer.parseInt(animalIdAsString);
-        }
+        Integer animalId = userInteraction.askForNumber("Which animal do you want to see?", "You need to enter an ID - this is a number!");
 
         try {
             Animal animal = animalService.readAnimalById(animalId);

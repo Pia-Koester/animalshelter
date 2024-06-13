@@ -4,7 +4,13 @@ import java.util.Scanner;
 
 public class UserInteraction {
 
-    public Integer askForNumber(Scanner scanner, String question, String errorMessage) {
+    private final Scanner scanner;
+
+    public UserInteraction(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Integer askForNumber(String question, String errorMessage) {
         System.out.println(question);
         String userInput = scanner.nextLine();
         Integer parsedUserInput;
@@ -12,8 +18,10 @@ public class UserInteraction {
             parsedUserInput = Integer.parseInt(userInput);
         } catch (NumberFormatException e) {
             System.out.println(errorMessage);
-            parsedUserInput = askForNumber(scanner, question, "you really need to enter a number here");
+            parsedUserInput = askForNumber(question, "ENTER A NUMBER!");
         }
         return parsedUserInput;
     }
+
+
 }

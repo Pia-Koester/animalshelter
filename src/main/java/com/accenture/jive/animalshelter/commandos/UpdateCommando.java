@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
@@ -12,16 +13,18 @@ import java.util.Scanner;
 public class UpdateCommando implements Commando {
     private final Scanner scanner;
     private final AnimalService animalService;
+    private final UserInteraction userInteraction;
 
-    public UpdateCommando(Scanner scanner, AnimalService animalService) {
+    public UpdateCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
 
         this.scanner = scanner;
         this.animalService = animalService;
+        this.userInteraction = userInteraction;
     }
 
     @Override
     public boolean execute() throws CommandoException {
-        System.out.println("The Animals are celebrating a birthday - Select which animal got one year older");
+        System.out.println("The Animals are celebrating a birthday:");
         try {
             List<Animal> animals = animalService.readAnimals();
 
@@ -29,8 +32,7 @@ public class UpdateCommando implements Commando {
                 System.out.println(animal.getId() + " - Name: " + animal.getName() + " age: " + animal.getAge());
             }
 
-            String animalIdString = scanner.nextLine();
-            Integer animalId = Integer.parseInt(animalIdString.trim());
+            Integer animalId = userInteraction.askForNumber("Select which animal got one year older", "Enter the animal ID");
 
             int i = animalService.updateAnimal(animalId);
             if (i > 0) {

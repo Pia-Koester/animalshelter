@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter.commandos;
 
 import com.accenture.jive.animalshelter.Animal;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
@@ -12,11 +13,13 @@ import java.util.Scanner;
 public class RemoveCommando implements Commando {
     private final Scanner scanner;
     private final AnimalService animalService;
+    private final UserInteraction userInteraction;
 
-    public RemoveCommando(Scanner scanner, AnimalService animalService) {
+    public RemoveCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
 
         this.scanner = scanner;
         this.animalService = animalService;
+        this.userInteraction = userInteraction;
     }
 
     @Override
@@ -35,15 +38,8 @@ public class RemoveCommando implements Commando {
             if ("exit".equalsIgnoreCase(selectedAnimalIdAsString)) {
                 return false;
             }
-            Integer selectedAnimalId = null;
-            //QUESTION: diesen Zahlen Test mache ich immer wieder - wie mehrfach nutzbar machen?
-            try {
-                selectedAnimalId = Integer.parseInt(selectedAnimalIdAsString);
-            } catch (NumberFormatException e) {
-                System.out.println("Enter a valid ID - this must be a number");
-                selectedAnimalIdAsString = scanner.nextLine();
-                selectedAnimalId = Integer.parseInt(selectedAnimalIdAsString);
-            }
+            Integer selectedAnimalId = userInteraction.askForNumber("Enter the animal ID", "Enter a valid ID - this must be a number");
+           
 
             int i = animalService.removeAnimal(selectedAnimalId);
             if (i > 0) {

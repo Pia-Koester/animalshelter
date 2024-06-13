@@ -20,8 +20,9 @@ public class AnimalShelter {
         AnimalService animalService = new AnimalService(connection);
         AnimalTypeService animalTypeService = new AnimalTypeService(connection);
         AnimalFactory animalFactory = new AnimalFactory();
+        UserInteraction userInteraction = new UserInteraction(scanner);
 
-        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService, animalFactory);
+        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService, animalFactory, userInteraction);
 
         boolean runApp = true;
         while (runApp) {
@@ -46,15 +47,15 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory) {
+    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
         List<Commando> commandos = new ArrayList<>();
 
-        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService, animalFactory);
+        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService, animalFactory, userInteraction);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
-        Commando showByIdCommando = new ShowByIdCommando(scanner, animalService);
-        Commando updateCommando = new UpdateCommando(scanner, animalService);
-        Commando removeCommando = new RemoveCommando(scanner, animalService);
+        Commando showByIdCommando = new ShowByIdCommando(scanner, animalService, userInteraction);
+        Commando updateCommando = new UpdateCommando(scanner, animalService, userInteraction);
+        Commando removeCommando = new RemoveCommando(scanner, animalService, userInteraction);
         Commando helpCommando = new HelpCommando();
 
         commandos.add(addCommando);
