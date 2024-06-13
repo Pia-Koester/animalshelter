@@ -1,6 +1,7 @@
 package com.accenture.jive.animalshelter;
 
 import com.accenture.jive.animalshelter.commandos.*;
+import com.accenture.jive.animalshelter.factories.AnimalFactory;
 import com.accenture.jive.animalshelter.services.AnimalService;
 import com.accenture.jive.animalshelter.services.AnimalTypeService;
 
@@ -18,8 +19,10 @@ public class AnimalShelter {
 
         AnimalService animalService = new AnimalService(connection);
         AnimalTypeService animalTypeService = new AnimalTypeService(connection);
+        AnimalFactory animalFactory = new AnimalFactory();
+        UserInteraction userInteraction = new UserInteraction(scanner);
 
-        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService);
+        List<Commando> commandos = createCommandos(animalService, animalTypeService, animalFactory, userInteraction);
 
         boolean runApp = true;
         while (runApp) {
@@ -44,15 +47,15 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService) {
+    public List<Commando> createCommandos(AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
         List<Commando> commandos = new ArrayList<>();
 
-        Commando addCommando = new AddCommando(scanner, animalService, animalTypeService);
+        Commando addCommando = new AddCommando(animalService, animalTypeService, animalFactory, userInteraction);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
-        Commando showByIdCommando = new ShowByIdCommando(scanner, connection);
-        Commando updateCommando = new UpdateCommando(scanner, animalService);
-        Commando removeCommando = new RemoveCommando(scanner, animalService);
+        Commando showByIdCommando = new ShowByIdCommando(animalService, userInteraction);
+        Commando updateCommando = new UpdateCommando(animalService, userInteraction);
+        Commando removeCommando = new RemoveCommando(animalService, userInteraction);
         Commando helpCommando = new HelpCommando();
 
         commandos.add(addCommando);

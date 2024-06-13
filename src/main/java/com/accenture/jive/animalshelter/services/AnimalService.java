@@ -3,6 +3,7 @@ package com.accenture.jive.animalshelter.services;
 import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
+import com.accenture.jive.animalshelter.factories.AnimalFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,6 +52,31 @@ public class AnimalService {
         return animals;
     }
 
+    public Animal readAnimalById(Integer animalId) throws SQLException {
+        //QUESTION: wo öffne ich diese Factory? im AnimalShelter?
+        AnimalFactory animalFactory = new AnimalFactory();
+        String sql =
+                "SELECT animal_id, animal_name, age, type_name " +
+                        "FROM animal " +
+                        "JOIN type ON animal.type_id = type.type_id " +
+                        "WHERE animal_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, animalId);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next()) {
+            System.out.println("404: No animal found!");
+
+        }
+
+        String animalName = resultSet.getString("animal_name");
+        Integer animalAge = resultSet.getInt("age");
+        String animalType = resultSet.getString("type_name");
+
+        return animalFactory.create(animalType, animalName, animalAge);
+
+    }
 
     public int addAnimal(Animal animal, Integer animalSpeciesId) throws SQLException {
 
@@ -61,7 +87,7 @@ public class AnimalService {
         PreparedStatement preparedStatement1 = connection.prepareStatement(insertSQL);
         preparedStatement1.setString(1, animal.getName());
         preparedStatement1.setInt(2, animal.getAge());
-        preparedStatement1.setInt(3, animalSpeciesId); //QUESTION: Wie mache ich das?
+        preparedStatement1.setInt(3, animalSpeciesId);
 
         return preparedStatement1.executeUpdate();
     }
