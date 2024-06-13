@@ -11,6 +11,7 @@ public class HelpCommando implements Commando {
         System.out.println("\u001B[36m" + "- show-by-id" + "\u001B[0m" + " let's you look up an animal based on the id");
         System.out.println("\u001B[36m" + "- adopt" + "\u001B[0m" + " will let you choose an animal you want to take home");
         System.out.println("\u001B[36m" + "- birthday" + "\u001B[0m" + " means you can say which animal will celebrate their birthday");
+        System.out.println("\u001B[36m" + "- add" + "\u001B[0m" + " you will leave your animal in the Shelter - abandoning them :(");
         System.out.println("\u001B[36m" + "- exit" + "\u001B[0m" + " let's you leave the Animalshelter.");
         return true;
     }

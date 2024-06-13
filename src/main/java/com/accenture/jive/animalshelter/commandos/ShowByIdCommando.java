@@ -27,7 +27,7 @@ public class ShowByIdCommando implements Commando {
 
         try {
             Animal animal = animalService.readAnimalById(animalId);
-            System.out.println("Animal found: " + animal.getName() + ", age: " + animal.getAge());
+            userInteraction.responseWriter("Animal found: " + animal.getName() + ", age: " + animal.getAge(), null);
         } catch (SQLException e) {
             throw new CommandoException("Animal cannot be shown", e);
         }

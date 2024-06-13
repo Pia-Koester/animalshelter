@@ -29,7 +29,7 @@ public class AddCommando implements Commando {
     @Override
     public boolean execute() throws CommandoException {
 
-        System.out.println("Which animal do you want to abandon? ");
+        userInteraction.responseWriter("Which animal do you want to abandon? ", null);
         try {
             animalTypeService.readAnimalTypes();
             Integer animalTypeId =
@@ -55,7 +55,7 @@ public class AddCommando implements Commando {
             int i = animalService.addAnimal(animal, animalTypeId);
 
             if (i > 0) {
-                System.out.println("\u001B[36m" + "200: Animal successfully added!" + "\u001B[0m");
+                userInteraction.responseWriter("200: Animal successfully added!", "blue");
             }
             //TODO: read last id methode und dann id mit object zurückgeben
         } catch (SQLException e) {

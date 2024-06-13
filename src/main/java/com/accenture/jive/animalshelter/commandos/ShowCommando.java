@@ -3,6 +3,7 @@ package com.accenture.jive.animalshelter.commandos;
 import com.accenture.jive.animalshelter.Animal;
 import com.accenture.jive.animalshelter.Cat;
 import com.accenture.jive.animalshelter.Dog;
+import com.accenture.jive.animalshelter.UserInteraction;
 import com.accenture.jive.animalshelter.services.AnimalService;
 
 import java.sql.Connection;
@@ -14,11 +15,12 @@ import java.util.List;
 
 public class ShowCommando implements Commando {
     private final AnimalService animalService;
+    private final UserInteraction userInteraction;
     public ArrayList<Animal> animalsInShelter;
 
-    public ShowCommando(AnimalService animalService) {
+    public ShowCommando(AnimalService animalService, UserInteraction userInteraction) {
         this.animalService = animalService;
-
+        this.userInteraction = userInteraction;
     }
 
     @Override
@@ -31,9 +33,9 @@ public class ShowCommando implements Commando {
 
         try {
             List<Animal> animals = animalService.readAnimals();
-            System.out.println("All these animals are waiting for their forever home: ");
+            userInteraction.responseWriter("All these animals are waiting for their forever home: ", null);
             for (Animal animal : animals) {
-                System.out.println(animal.getName() + " is " + animal.getAge() + " years old");
+                userInteraction.responseWriter(animal.getName() + " is " + animal.getAge() + " years old", "purple");
             }
         } catch (SQLException e) {
             throw new CommandoException("Animals cannot be shown", e);

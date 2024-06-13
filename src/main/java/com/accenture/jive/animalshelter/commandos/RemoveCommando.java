@@ -21,12 +21,12 @@ public class RemoveCommando implements Commando {
 
     @Override
     public boolean execute() throws CommandoException {
-        System.out.println("Which of these animals do you want to adopt? ");
+        userInteraction.responseWriter("Which of these animals do you want to adopt? ", null);
         try {
             List<Animal> animals = animalService.readAnimals();
 
             for (Animal animal : animals) {
-                System.out.println(animal.getId() + " - " + animal.getName());
+                userInteraction.responseWriter(animal.getId() + " - " + animal.getName(), null);
             }
 
             Integer selectedAnimalId = userInteraction.askForNumber("Enter the animal ID", "Enter a valid ID - this must be a number");
@@ -34,7 +34,7 @@ public class RemoveCommando implements Commando {
 
             int i = animalService.removeAnimal(selectedAnimalId);
             if (i > 0) {
-                System.out.println("\u001B[36m" + "204: Removal from Shelter successfull" + "\u001B[0m");
+                userInteraction.responseWriter("204: Removal from Shelter successfull", "blue");
             }
         } catch (SQLException e) {
             throw new CommandoException("Animal cannot be removed", e);

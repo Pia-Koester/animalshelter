@@ -18,13 +18,13 @@ public class UserInteraction {
     }
 
     public Integer askForNumber(String question, String errorMessage) {
-        System.out.println(question);
+        responseWriter(question, null);
         String userInput = scanner.nextLine();
         Integer parsedUserInput;
         try {
             parsedUserInput = Integer.parseInt(userInput);
         } catch (NumberFormatException e) {
-            System.out.println(errorMessage);
+            responseWriter(errorMessage, "red");
             parsedUserInput = askForNumber(question, "ENTER A NUMBER!");
         }
         return parsedUserInput;
