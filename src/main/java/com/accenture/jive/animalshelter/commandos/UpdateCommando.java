@@ -22,26 +22,25 @@ public class UpdateCommando implements Commando {
 
     @Override
     public boolean execute() throws CommandoException {
-        System.out.println("The Animals are celebrating a birthday:");
+        userInteraction.responseWriter("The Animals are celebrating a birthday:", null);
         try {
             List<Animal> animals = animalService.readAnimals();
 
             for (Animal animal : animals) {
-                System.out.println(animal.getId() + " - Name: " + animal.getName() + " age: " + animal.getAge());
+                userInteraction.responseWriter(animal.getId() + " - Name: " + animal.getName() + " age: " + animal.getAge(), null);
             }
 
             Integer animalId = userInteraction.askForNumber("Select which animal got one year older", "Enter the animal ID");
 
             int i = animalService.updateAnimal(animalId);
             if (i > 0) {
-                System.out.println("\u001B[36m" + "200: Update successfull - Happy Birthday!" + "\u001B[0m");
+                userInteraction.responseWriter("200: Update successfull - Happy Birthday!", "purple");
             }
 
             List<Animal> updatedAnimals = animalService.readAnimals();
 
             for (Animal updatedAnimal : updatedAnimals) {
-                System.out.println(updatedAnimal.getId() + " - Name: " + updatedAnimal.getName() + " age: " + updatedAnimal.getAge());
-
+                userInteraction.responseWriter(updatedAnimal.getId() + " - Name: " + updatedAnimal.getName() + " age: " + updatedAnimal.getAge(), null);
             }
         } catch (SQLException e) {
             throw new CommandoException("Updating the animal did not work", e);
