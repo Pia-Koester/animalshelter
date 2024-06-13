@@ -12,12 +12,10 @@ import java.util.Scanner;
 
 public class ShowByIdCommando implements Commando {
 
-    private final Scanner scanner;
     private final AnimalService animalService;
     private final UserInteraction userInteraction;
 
-    public ShowByIdCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
-        this.scanner = scanner;
+    public ShowByIdCommando(AnimalService animalService, UserInteraction userInteraction) {
         this.animalService = animalService;
         this.userInteraction = userInteraction;
     }

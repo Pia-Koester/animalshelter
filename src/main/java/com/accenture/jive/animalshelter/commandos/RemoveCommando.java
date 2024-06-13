@@ -11,13 +11,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RemoveCommando implements Commando {
-    private final Scanner scanner;
     private final AnimalService animalService;
     private final UserInteraction userInteraction;
 
-    public RemoveCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
-
-        this.scanner = scanner;
+    public RemoveCommando(AnimalService animalService, UserInteraction userInteraction) {
         this.animalService = animalService;
         this.userInteraction = userInteraction;
     }
@@ -32,14 +29,8 @@ public class RemoveCommando implements Commando {
                 System.out.println(animal.getId() + " - " + animal.getName());
             }
 
-            String selectedAnimalIdAsString = scanner.nextLine();
-
-//QUESTION: das exit mache ich immer und immer wieder - wo kann ich es hinpacken sodass ich es wiederverwenden kann?
-            if ("exit".equalsIgnoreCase(selectedAnimalIdAsString)) {
-                return false;
-            }
             Integer selectedAnimalId = userInteraction.askForNumber("Enter the animal ID", "Enter a valid ID - this must be a number");
-           
+
 
             int i = animalService.removeAnimal(selectedAnimalId);
             if (i > 0) {

@@ -11,13 +11,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UpdateCommando implements Commando {
-    private final Scanner scanner;
     private final AnimalService animalService;
     private final UserInteraction userInteraction;
 
-    public UpdateCommando(Scanner scanner, AnimalService animalService, UserInteraction userInteraction) {
+    public UpdateCommando(AnimalService animalService, UserInteraction userInteraction) {
 
-        this.scanner = scanner;
         this.animalService = animalService;
         this.userInteraction = userInteraction;
     }

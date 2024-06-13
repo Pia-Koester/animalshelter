@@ -22,7 +22,7 @@ public class AnimalShelter {
         AnimalFactory animalFactory = new AnimalFactory();
         UserInteraction userInteraction = new UserInteraction(scanner);
 
-        List<Commando> commandos = createCommandos(scanner, connection, animalService, animalTypeService, animalFactory, userInteraction);
+        List<Commando> commandos = createCommandos(scanner, animalService, animalTypeService, animalFactory, userInteraction);
 
         boolean runApp = true;
         while (runApp) {
@@ -47,15 +47,15 @@ public class AnimalShelter {
 
     }
 
-    public List<Commando> createCommandos(Scanner scanner, Connection connection, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
+    public List<Commando> createCommandos(Scanner scanner, AnimalService animalService, AnimalTypeService animalTypeService, AnimalFactory animalFactory, UserInteraction userInteraction) {
         List<Commando> commandos = new ArrayList<>();
 
         Commando addCommando = new AddCommando(scanner, animalService, animalTypeService, animalFactory, userInteraction);
         Commando showCommando = new ShowCommando(animalService);
         Commando exitCommando = new ExitCommando();
-        Commando showByIdCommando = new ShowByIdCommando(scanner, animalService, userInteraction);
-        Commando updateCommando = new UpdateCommando(scanner, animalService, userInteraction);
-        Commando removeCommando = new RemoveCommando(scanner, animalService, userInteraction);
+        Commando showByIdCommando = new ShowByIdCommando(animalService, userInteraction);
+        Commando updateCommando = new UpdateCommando(animalService, userInteraction);
+        Commando removeCommando = new RemoveCommando(animalService, userInteraction);
         Commando helpCommando = new HelpCommando();
 
         commandos.add(addCommando);
